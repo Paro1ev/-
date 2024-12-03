@@ -28,5 +28,10 @@
         </select><br/>
         <input type="submit" value="Создать" />        
     </form>
-
 </body>
+
+<script>
+    if(!sessionStorage.getItem("token"))
+        window.location.href = "auth.html";
+</script>
+</html>
