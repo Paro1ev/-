@@ -33,6 +33,46 @@
 
         </tbody>
     </table>
+    <script>
+        if(!sessionStorage.getItem("token"))
+            window.location.href = "auth.html";
+        let tbody = document.querySelector("tbody")
+
+        GetOrders();
+
+        async function GetOrders(param = null) {
+            let uri = param?
+            `http://localhost:5176/orders?param=${param}` :
+            "http://localhost:5176/orders";
+            let response = await fetch(uri).then(data => data.json())
+
+            if(response.message)
+                alert(response.message);
+
+            response.repo.forEach(o => {
+                let tr = document.createElement("tr");
+                tr.innerHTML = `
+                <td>${o.number}</td>
+                <td>${o.startDate}</td>
+                <td>${o.device}</td>
+                <td>${o.problemType}</td>
+                <td>${o.description}</td>
+                <td>${o.client}</td>
+                <td>${o.status}</td>
+                <td>${o.master}</td>
+                <td>${o.comments}</td>`;
+                tbody.append(tr);
+            });
+
+
+        }
+
+        function GetFilter() {
+            tbody.innerHTML = ""
+            let param = document.getElementById("search").value;
+            GetOrders(param)
+        }
+    </script>
     
 </body>
 </html>
